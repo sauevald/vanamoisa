@@ -1,0 +1,16 @@
+{
+  "name": "sauevald-vanamoisa",
+  "description": "Vanamõisa arendusala projekt.",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "sauevald/vanamoisa",
+  "license": "MIT",
+  "scripts": {
+    "start": "sirv --dev --no-clear --port 3001",
+    "lint": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "3.2.5",
+    "sirv-cli": "2.0.2"
+  }
+}
