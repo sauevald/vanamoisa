@@ -1,7 +1,7 @@
 // Create a Leaflet map with specified options
 const map = new L.Map('map', {
-  center: [59.3326, 24.5679],
-  zoom: 14,
+  center: [59.3335, 24.5657],
+  zoom: 15,
   fullscreenControl: true,
   fullscreenControlOptions: {
     position: 'topleft',
@@ -42,7 +42,7 @@ const vanamoisa = L.tileLayer(
   'https://mapwarper.net/maps/tile/80329/{z}/{x}/{y}.png',
   {
     attribution:
-      "<a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa arendusala eskiis</a>",
+      "Skeem: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
   }
 )
 
@@ -63,6 +63,9 @@ L.control.layers(baseMaps, overlayMaps).addTo(map)
 
 // Set the default layer to ortophoto
 orto.addTo(map)
+
+// Add author info to the map
+map.attributionControl.setPrefix('Teostus: Tormi Tabor')
 
 // Add a vertical slider using jQuery UI Slider
 $('#slider').slider({
