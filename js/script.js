@@ -37,6 +37,33 @@ const kataster = L.tileLayer.wms('https://kaart.maaamet.ee/wms/alus-geo?', {
   crs: L.CRS.EPSG4326,
 })
 
+// Create a custom CRS for EPSG:3301
+var crs = new L.Proj.CRS(
+  'EPSG:3301',
+  '+proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+  {
+    resolutions: [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5],
+    transformation: new L.Transformation(1, -40500, -1, 7017000),
+  }
+)
+
+// Create a WMS tile layers using Estonian planning map data
+// Land use layer
+const yp_mk = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
+  format: 'image/png',
+  transparent: true,
+  layers: 'yp_maakasutus',
+  crs: crs, // Set the custom CRS for EPSG:3301
+})
+
+// Transport layer
+const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
+  format: 'image/png',
+  transparent: true,
+  layers: 'yp_transport',
+  crs: crs, // Set the custom CRS for EPSG:3301
+})
+
 // Create a custom tile layer for the Vanamõisa development area
 const vanamoisa = L.tileLayer(
   'https://mapwarper.net/maps/tile/80329/{z}/{x}/{y}.png',
@@ -55,6 +82,8 @@ const baseMaps = {
 const overlayMaps = {
   Hybriid: hybriid,
   Kataster: kataster,
+  'ÜP maakasutus': yp_mk,
+  'ÜP transport': yp_tr,
   Vanamõisa: vanamoisa,
 }
 
@@ -84,6 +113,8 @@ const layers = {
   o: orto,
   hy: hybriid,
   ka: kataster,
+  yk: yp_mk,
+  yt: yp_tr,
   va: vanamoisa,
 }
 L.myHash(map, layers)
