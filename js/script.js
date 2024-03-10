@@ -10,7 +10,8 @@ const map = new L.Map('map', {
 
 // Create a tile layer using OpenStreetMap tiles
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: 'Kaart: <a href="http://osm.org/copyright">OSM</a>',
+  attribution:
+    'Kaart: <a href="http://osm.org/copyright" target="_blank">OSM</a>',
 })
 
 // Create a tile layer using Estonian hybrid map tiles
@@ -54,6 +55,8 @@ const yp_mk = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   transparent: true,
   layers: 'yp_maakasutus',
   crs: crs, // Set the custom CRS for EPSG:3301
+  attribution:
+    'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP maakasutus</a>',
 })
 
 // Transport layer
@@ -62,6 +65,8 @@ const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   transparent: true,
   layers: 'yp_transport',
   crs: crs, // Set the custom CRS for EPSG:3301
+  attribution:
+    'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP transport</a>',
 })
 
 // Create a custom tile layer for the Vanamõisa development area
@@ -69,7 +74,7 @@ const vanamoisa = L.tileLayer(
   'https://mapwarper.net/maps/tile/80329/{z}/{x}/{y}.png',
   {
     attribution:
-      "Skeem: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
+      "Kiht: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
   }
 )
 
@@ -84,7 +89,7 @@ const overlayMaps = {
   Kataster: kataster,
   'ÜP maakasutus': yp_mk,
   'ÜP transport': yp_tr,
-  Vanamõisa: vanamoisa,
+  'Vanamõisa eskiis': vanamoisa,
 }
 
 // Add the layer control to the map
