@@ -61,26 +61,24 @@ const overlayMaps = {
 // Add the layer control to the map
 L.control.layers(baseMaps, overlayMaps).addTo(map)
 
-// Set the default layer to ortophoto
+// Create an instance of the custom vertical slider control
+const verticalSlider = new L.Control.VerticalSlider({
+  position: 'topright',
+  layer: vanamoisa,
+})
+
+// Add the control to Leaflet map
+map.addControl(verticalSlider)
+
+// Set the default basemap layer to ortophoto
 orto.addTo(map)
 
 // Add author info to the map
-map.attributionControl.setPrefix('Teostus: Tormi Tabor')
+map.attributionControl.setPrefix(
+  'Teostus: <a href = "mailto:tormi.tabor@gmail.com">Tormi Tabor</a>'
+)
 
-// Add a vertical slider using jQuery UI Slider
-$('#slider').slider({
-  orientation: 'vertical',
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 80,
-  slide: function (e, ui) {
-    // Adjust the opacity of the Vanamõisa layer based on the slider value
-    vanamoisa.setOpacity(ui.value / 100)
-  },
-})
-
-// Initialize leaflet-fullHash plugin
+// Initialize customised leaflet-fullHash plugin
 const layers = {
   b: osm,
   o: orto,

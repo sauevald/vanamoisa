@@ -9,18 +9,8 @@
 }
 
 #map {
-  height: calc(
-    100vh - 60px
-  ); /* Adjust the value based on your navbar's height */
+  height: calc(100vh - 60px); /* Adjust the value based on navbar's height */
   width: 100%;
-}
-
-#slider {
-  position: absolute;
-  top: 120px;
-  right: 20px;
-  height: 150px;
-  z-index: 1000;
 }
 
 .leaflet-control-layers-toggle {
@@ -35,8 +25,22 @@
   background-size: 80%;
 }
 
-#slider .ui-state-default,
+// Slider styles
+.ui-state-default,
 .ui-slider-range {
   background: rgba(0, 0, 0, 0.5);
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.ui-slider-vertical {
+  width: 2.8em;
+}
+
+.ui-slider .ui-slider-handle {
+  width: 3.2em;
+  height: 2.2em;
+}
+
+.ui-slider-vertical .ui-slider-handle {
+  margin-bottom: -1.6em;
 }
