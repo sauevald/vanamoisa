@@ -97,7 +97,7 @@ L.control.layers(baseMaps, overlayMaps).addTo(map)
 
 // Create an instance of the custom vertical slider control
 const verticalSlider = new L.Control.VerticalSlider({
-  position: 'topright',
+  position: 'bottomright',
   layer: vanamoisa,
 })
 
