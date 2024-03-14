@@ -69,6 +69,23 @@ const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
     'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP transport</a>',
 })
 
+const rattateed = L.esri.featureLayer({
+  url: 'https://gis.sauevald.ee/arcgis/rest/services/Hosted/Hooldatavad_kergteed/FeatureServer/0',
+  style: function (feature) {
+    // Customize the style based on the "tase" attribute value
+    const tase = feature.properties.tase
+    if (tase === 'III') {
+      return { color: '#c8102e', weight: 4 }
+    } else if (tase === 'II') {
+      return { color: '#f73c4d', weight: 3 }
+    } else {
+      return { color: '#fea3a7', weight: 2 }
+    }
+  },
+  attribution:
+    'Kiht: <a href="https://gis.sauevald.ee/portal/apps/webappviewer/index.html?id=4997acde0cde4d7eaae3b39d36b601e5" target="_blank">Saue valla hooldatavad JJT-d</a>',
+})
+
 // Create a custom tile layer for the Vanamõisa development area
 const vanamoisa = L.tileLayer(
   'https://mapwarper.net/maps/tile/80329/{z}/{x}/{y}.png',
@@ -89,6 +106,7 @@ const overlayMaps = {
   Kataster: kataster,
   'ÜP maakasutus': yp_mk,
   'ÜP transport': yp_tr,
+  'JJT hooldustasemed': rattateed,
   'Vanamõisa eskiis': vanamoisa,
 }
 
@@ -121,5 +139,6 @@ const layers = {
   yk: yp_mk,
   yt: yp_tr,
   va: vanamoisa,
+  rt: rattateed,
 }
 L.myHash(map, layers)
