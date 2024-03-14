@@ -39,7 +39,7 @@ const kataster = L.tileLayer.wms('https://kaart.maaamet.ee/wms/alus-geo?', {
 })
 
 // Create a custom CRS for EPSG:3301
-var crs = new L.Proj.CRS(
+const epsg3301 = new L.Proj.CRS(
   'EPSG:3301',
   '+proj=lcc +lat_1=59.33333333333334 +lat_2=58 +lat_0=57.51755393055556 +lon_0=24 +x_0=500000 +y_0=6375000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
   {
@@ -54,7 +54,7 @@ const yp_mk = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   format: 'image/png',
   transparent: true,
   layers: 'yp_maakasutus',
-  crs: crs, // Set the custom CRS for EPSG:3301
+  crs: epsg3301, // Set the custom CRS for EPSG:3301
   attribution:
     'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP maakasutus</a>',
 })
@@ -64,9 +64,26 @@ const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   format: 'image/png',
   transparent: true,
   layers: 'yp_transport',
-  crs: crs, // Set the custom CRS for EPSG:3301
+  crs: epsg3301, // Set the custom CRS for EPSG:3301
   attribution:
     'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP transport</a>',
+})
+
+const rattateed = L.esri.featureLayer({
+  url: 'https://gis.sauevald.ee/arcgis/rest/services/Hosted/Hooldatavad_kergteed/FeatureServer/0',
+  style: function (feature) {
+    // Customize the style based on the "tase" attribute value
+    const tase = feature.properties.tase
+    if (tase === 'III') {
+      return { color: '#c8102e', weight: 4 }
+    } else if (tase === 'II') {
+      return { color: '#f73c4d', weight: 3 }
+    } else {
+      return { color: '#fea3a7', weight: 2 }
+    }
+  },
+  attribution:
+    'Kiht: <a href="https://gis.sauevald.ee/portal/apps/webappviewer/index.html?id=4997acde0cde4d7eaae3b39d36b601e5" target="_blank">Saue valla hooldatavad JJT-d</a>',
 })
 
 // Create a custom tile layer for the Vanamõisa development area
@@ -89,6 +106,7 @@ const overlayMaps = {
   Kataster: kataster,
   'ÜP maakasutus': yp_mk,
   'ÜP transport': yp_tr,
+  'JJT hooldustasemed': rattateed,
   'Vanamõisa eskiis': vanamoisa,
 }
 
@@ -121,5 +139,6 @@ const layers = {
   yk: yp_mk,
   yt: yp_tr,
   va: vanamoisa,
+  rt: rattateed,
 }
 L.myHash(map, layers)
