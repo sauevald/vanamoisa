@@ -86,14 +86,14 @@ const rattateed = L.esri.featureLayer({
     'Kiht: <a href="https://gis.sauevald.ee/portal/apps/webappviewer/index.html?id=4997acde0cde4d7eaae3b39d36b601e5" target="_blank">Saue valla hooldatavad JJT-d</a>',
 })
 
-// Create a custom tile layer for the Vanamõisa development area
-const vanamoisa = L.tileLayer(
-  'https://mapwarper.net/maps/tile/80329/{z}/{x}/{y}.png',
-  {
-    attribution:
-      "Kiht: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
-  }
-)
+// Create a map layer for the Vanamõisa detail plan area
+const vanamoisa = L.esri.dynamicMapLayer({
+  url: 'https://gis.sauevald.ee/arcgis/rest/services/Detailplaneeringud/Raudteeylene_planeering_27_02_2024/MapServer',
+  crs: epsg3301,
+  useCors: false,
+  attribution:
+    "Kiht: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
+})
 
 // Define the base maps and overlay maps for the layer control
 const baseMaps = {
@@ -110,17 +110,37 @@ const overlayMaps = {
   'Vanamõisa eskiis': vanamoisa,
 }
 
-// Add the layer control to the map
-L.control.layers(baseMaps, overlayMaps).addTo(map)
+// Add the layer control to the map in the top-left corner
+L.control.layers(baseMaps, overlayMaps, { position: 'topleft' }).addTo(map)
+
+// Create a legend control for the Vanamõisa layer
+var legend = L.esri.legendControl(vanamoisa)
 
 // Create an instance of the custom vertical slider control
 const verticalSlider = new L.Control.VerticalSlider({
-  position: 'bottomright',
+  position: 'bottomleft',
   layer: vanamoisa,
 })
 
-// Add the control to Leaflet map
-map.addControl(verticalSlider)
+// Listen for when the Vanamõisa layer is added to the map
+map.on('overlayadd', function (event) {
+  // Check if the added layer is the Vanamõisa layer
+  if (event.layer === vanamoisa) {
+    // Add the legend control to the map
+    legend.addTo(map)
+    map.addControl(verticalSlider)
+  }
+})
+
+// Listen for when the Vanamõisa layer is removed from the map
+map.on('overlayremove', function (event) {
+  // Check if the removed layer is the Vanamõisa layer
+  if (event.layer === vanamoisa) {
+    // Remove the legend control from the map
+    map.removeControl(legend)
+    map.removeControl(verticalSlider)
+  }
+})
 
 // Set the default basemap layer to ortophoto
 orto.addTo(map)
