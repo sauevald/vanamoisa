@@ -17,16 +17,13 @@ const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Create a tile layer using Estonian hybrid map tiles
 const hybriid = L.tileLayer(
   'https://tiles.maaamet.ee/tm/tms/1.0.0/hybriid@GMC/{z}/{x}/{-y}.png',
-  {
-    tileSize: 512,
-  }
+  {}
 )
 
 // Create a tile layer using Estonian orthophoto map tiles
 const orto = L.tileLayer(
   'https://tiles.maaamet.ee/tm/tms/1.0.0/foto@GMC/{z}/{x}/{-y}.png',
   {
-    tileSize: 512,
     attribution:
       'Orto: <a href="https://www.maaamet.ee/" target="_blank" rel="noopener noreferrer">Maa-Amet</a>',
   }
