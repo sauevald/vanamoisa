@@ -50,7 +50,8 @@
 .leaflet-legend-control {
   background: white;
   padding: 1em;
-  max-height: 300px;
+  max-height: 200px;
+  max-width: 50vw;
   overflow: auto;
   font:
     12px/1.5 'Helvetica Neue',
