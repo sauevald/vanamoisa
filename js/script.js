@@ -114,7 +114,7 @@ const overlayMaps = {
 L.control.layers(baseMaps, overlayMaps, { position: 'topleft' }).addTo(map)
 
 // Create a legend control for the Vanamõisa layer
-var legend = L.esri.legendControl(vanamoisa)
+const legend = L.esri.legendControl(vanamoisa)
 
 // Create an instance of the custom vertical slider control
 const verticalSlider = new L.Control.VerticalSlider({
