@@ -72,21 +72,42 @@ const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
     'Kiht: <a href="https://planeeringud.ee/plank-web/#/planning/detail/20100625" target="_blank">Saue valla ÜP transport</a>',
 })
 
+// Define rattateed feature layer with initial style
 const rattateed = L.esri.featureLayer({
   url: 'https://gis.sauevald.ee/arcgis/rest/services/Hosted/Hooldatavad_kergteed/FeatureServer/0',
   style: function (feature) {
-    // Customize the style based on the "tase" attribute value
-    const tase = feature.properties.tase
-    if (tase === 'III') {
-      return { color: '#c8102e', weight: 4 }
-    } else if (tase === 'II') {
-      return { color: '#f73c4d', weight: 3 }
-    } else {
-      return { color: '#fea3a7', weight: 2 }
-    }
+    return getStyle(feature, map.getZoom())
   },
   attribution:
     'Kiht: <a href="https://gis.sauevald.ee/portal/apps/webappviewer/index.html?id=4997acde0cde4d7eaae3b39d36b601e5" target="_blank">Saue valla hooldatavad JJT-d</a>',
+})
+
+// Define a function to return style based on feature properties and zoom level
+function getStyle(feature, zoom) {
+  const tase = feature.properties.tase
+  let weight
+  if (zoom > 17) {
+    weight = tase === 'III' ? 10 : tase === 'II' ? 8 : 6
+  } else if (zoom > 16) {
+    weight = tase === 'III' ? 8 : tase === 'II' ? 6 : 4
+  } else if (zoom > 15) {
+    weight = tase === 'III' ? 6 : tase === 'II' ? 4 : 2
+  } else if (zoom > 14) {
+    weight = tase === 'III' ? 5 : tase === 'II' ? 3 : 1.5
+  } else {
+    weight = tase === 'III' ? 3 : tase === 'II' ? 2 : 1
+  }
+  return {
+    color: tase === 'III' ? '#fc4413' : tase === 'II' ? '#ffa77f' : '#ffe4d4',
+    weight: weight,
+  }
+}
+
+// Update the style of the feature layer on zoom end
+map.on('zoomend', function () {
+  rattateed.eachFeature(function (layer) {
+    layer.setStyle(getStyle(layer.feature, map.getZoom()))
+  })
 })
 
 // Create a map layer for the Vanamõisa detail plan area
