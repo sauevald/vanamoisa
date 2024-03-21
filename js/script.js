@@ -17,13 +17,16 @@ const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Create a tile layer using Estonian hybrid map tiles
 const hybriid = L.tileLayer(
   'https://tiles.maaamet.ee/tm/tms/1.0.0/hybriid@GMC/{z}/{x}/{-y}.png',
-  {}
+  {
+    tileSize: 512,
+  }
 )
 
 // Create a tile layer using Estonian orthophoto map tiles
 const orto = L.tileLayer(
   'https://tiles.maaamet.ee/tm/tms/1.0.0/foto@GMC/{z}/{x}/{-y}.png',
   {
+    tileSize: 512,
     attribution:
       'Orto: <a href="https://www.maaamet.ee/" target="_blank" rel="noopener noreferrer">Maa-Amet</a>',
   }
@@ -32,6 +35,7 @@ const orto = L.tileLayer(
 // Create a WMS tile layer using Estonian cadastral map data
 const kataster = L.tileLayer.wms('https://kaart.maaamet.ee/wms/alus-geo?', {
   format: 'image/png',
+  tileSize: 512,
   transparent: true,
   minZoom: 15,
   layers: 'TOPOYKSUS_6569',
@@ -52,6 +56,7 @@ const epsg3301 = new L.Proj.CRS(
 // Land use layer
 const yp_mk = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   format: 'image/png',
+  tileSize: 512,
   transparent: true,
   layers: 'yp_maakasutus',
   crs: epsg3301, // Set the custom CRS for EPSG:3301
@@ -62,6 +67,7 @@ const yp_mk = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
 // Transport layer
 const yp_tr = L.tileLayer.wms('https://planeeringud.ee/plank/wms?', {
   format: 'image/png',
+  tileSize: 512,
   transparent: true,
   layers: 'yp_transport',
   crs: epsg3301, // Set the custom CRS for EPSG:3301
@@ -91,6 +97,7 @@ const vanamoisa = L.esri.dynamicMapLayer({
   url: 'https://gis.sauevald.ee/arcgis/rest/services/Detailplaneeringud/Raudteeylene_planeering_27_02_2024/MapServer',
   crs: epsg3301,
   useCors: false,
+  tileSize: 512,
   attribution:
     "Kiht: <a href='https://atp.amphora.ee/sauevv/index.aspx?itm=1118413' target='_blank'>Vanamõisa DP algatamise taotlus</a>",
 })
